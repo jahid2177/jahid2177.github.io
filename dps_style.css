@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #F0F4F8;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+header h1 { color: #004D40; margin: 0; font-size: 1.8em; }
+.menu { position: relative; }
+.menu-btn { background: none; border: none; font-size: 2em; cursor: pointer; color: #004D40; }
+.menu-content { display: none; position: absolute; right: 0; top: 50px; background-color: #fff; min-width: 220px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); z-index: 1; border-radius: 8px; }
+.menu-content a { color: #333; padding: 12px 16px; text-decoration: none; display: block; font-size: 1em; }
+.menu-content a:hover { background-color: #f1f1f1; }
+.menu-content.show { display: block; }
+.card { background: #fff; border-radius: 20px; padding: 30px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); }
+.input-group { margin-bottom: 25px; }
+.input-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; font-size: 1em; }
+.input-group input[type="number"],
+.input-group select { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #CFD8DC; background-color: #ECEFF1; font-size: 1.1em; font-family: 'Poppins', sans-serif; box-sizing: border-box; }
+.calculate-btn { width: 100%; background-color: #00796B; color: #fff; border: none; padding: 16px; font-size: 1.2em; border-radius: 12px; cursor: pointer; font-weight: 600; margin-top: 10px; }
+.chart-btn { width: 100%; background-color: #B2DFDB; color: #004D40; text-align: center; border: none; padding: 14px; font-size: 1.1em; border-radius: 12px; cursor: pointer; font-weight: 600; margin-top: 15px; }
+.result { margin-top: 25px; padding: 20px; background-color: #E0F2F1; border-radius: 15px; text-align: left; font-size: 1.1em; font-weight: 500; color: #004D40; display: none; line-height: 1.8; }
+.result strong { font-size: 1.3em; display: block; margin-top: 10px; text-align: center; }
+.result span { float: right; font-weight: 600; }
+footer { text-align: center; margin-top: 25px; font-size: 0.8em; color: #555; }
+
+/* --- নতুন Image Modal স্টাইল --- */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.85);
+}
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 85%;
+    max-width: 700px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.close-btn:hover, .close-btn:focus {
+    color: #bbb;
+    text-decoration: none;
+}
