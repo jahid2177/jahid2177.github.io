@@ -148,7 +148,16 @@
             padding: 25px;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            /* Scroll Animation-এর জন্য প্রাথমিক অবস্থা */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        /* Scroll করে দৃশ্যমান হলে এই স্টাইলটি প্রয়োগ হবে */
+        .dashboard-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .dashboard-card:hover {
@@ -404,7 +413,51 @@
         body.calculator-fullscreen .fullscreen-home-btn {
             display: grid; /* Show only in fullscreen */
         }
-    </style>
+    
+/* Glossy colourful dashboard & info cards */
+.dashboard-card, #page-credit-card .option-card, #page-credit-card-circular .circular-card {
+    background: linear-gradient(135deg, #6EE7B7, #3B82F6);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    text-decoration: none; /* For anchor tags */
+}
+
+.dashboard-card:hover, #page-credit-card .option-card:hover, #page-credit-card-circular .circular-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+}
+
+.dashboard-card h3, #page-credit-card .option-card div, #page-credit-card-circular .circular-text {
+    color: white;
+    font-weight: 600;
+}
+
+#page-credit-card .option-card, #page-credit-card-circular .circular-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 20px;
+    display: flex; /* Ensure flex properties apply */
+    align-items: center;
+    justify-content: center;
+}
+
+#page-credit-card .card-icon, #page-credit-card-circular .circular-icon {
+    font-size: 2.5em;
+    margin-bottom: 12px;
+    background: rgba(255,255,255,0.2);
+    padding: 18px;
+    border-radius: 50%;
+    color: white; /* Ensure icon is white */
+}
+#page-credit-card .card-arrow {
+    display: none; /* Hide the default arrow */
+}
+
+
+</style>
 </head>
 <body>
     <button class="fullscreen-home-btn" data-target="dashboard" title="Go to Dashboard">
@@ -414,7 +467,7 @@
     <div class="app-shell">
         <header>
             <div class="logo">
-                <i class="fas fa-calculator"></i> CalcSuite
+                <i class="fas fa-calculator"></i> CalcSolution
             </div>
             <div class="nav-buttons">
                 <button class="nav-btn" data-target="dashboard"><i class="fas fa-home"></i> Home</button>
@@ -424,7 +477,7 @@
         <main id="content-area">
 
             <section class="page active" id="page-dashboard">
-                <h2 class="page-title">Financial Calculator Suite</h2>
+                <h2 class="page-title">Financial Calculator</h2>
                 <div class="dashboard-grid">
                     <div class="dashboard-card" data-target="main-calculator"><span class="icon"><i class="fas fa-border-all"></i></span><h3>Main Calculator</h3></div>
                     <div class="dashboard-card" data-target="age-calculator"><span class="icon"><i class="fas fa-birthday-cake"></i></span><h3>Age Calculator</h3></div>
@@ -434,7 +487,9 @@
                     <div class="dashboard-card" data-target="dbr-calculator"><span class="icon"><i class="fas fa-percentage"></i></span><h3>DBR Calculator</h3></div>
                     <div class="dashboard-card" data-target="elsl-calculator"><span class="icon"><i class="fas fa-user-tie"></i></span><h3>Employee Loan</h3></div>
                     <div class="dashboard-card" data-target="credit-card"><span class="icon"><i class="fas fa-credit-card"></i></span><h3>Credit Card Info</h3></div>
-                </div>
+                    <div class="dashboard-card" data-target="credit-card-circular"><span class="icon"><i class="fas fa-file-alt"></i></span><h3>Credit Card circular</h3></div>
+                    <div class="dashboard-card" data-target="notice"><span class="icon"><i class="fas fa-bell"></i></span><h3>Notice</h3></div>
+               </div>
             </section>
 
             <section class="page" id="page-main-calculator">
@@ -480,7 +535,7 @@
                  <h2 class="page-title">FDR Calculator</h2>
                  <div class="calculator-container">
                     <div class="calc-input-group"><label>Deposit Amount (BDT)</label><input type="number" id="fdr-amount" placeholder="e.g., 100000"></div>
-                    <div class="calc-input-group"><label>Select Tenure</label><select id="fdr-months"><option value="1">1 Month (Rate: 5%)</option><option value="3">3 Months (Rate: 8.50%)</option><option value="6">6 Months (Rate: 8.75%)</option><option value="12" selected>12 Months (Rate: 9%)</option></select></div>
+                    <div class="calc-input-group"><label>Select Tenure</label><select id="fdr-months"><option value="1">1 Month (Rate: 5%)</option><option value="3">3 Months (Rate: 8.00%)</option><option value="3.10">3.10 Months (Rate: 8.00%)</option><option value="6">6 Months (Rate: 8.25%)</option><option value="12" selected>12 Months (Rate: 8.50%)</option></select></div>
                     <div class="calc-input-group"><label>Tax Deduction (%)</label><select id="fdr-tax-deduction"><option value="10">10%</option><option value="15">15%</option></select></div>
                     <button class="calc-btn" id="fdr-calculate-btn">Calculate</button>
                     <div id="fdr-result" class="calc-result"></div>
@@ -535,15 +590,49 @@
             <section class="page" id="page-credit-card">
                  <h2 class="page-title">Credit Card Services</h2>
                  <div class="options-grid">
-                    <a href="consumer.jpg" target="_blank" class="option-card"><i class="fas fa-user card-icon"></i><div>Consumer Charges & Fees</div><i class="fas fa-chevron-right card-arrow"></i></a>
-                    <a href="corporate.jpg" target="_blank" class="option-card"><i class="fas fa-building card-icon"></i><div>Corporate Charges & Fees</div><i class="fas fa-chevron-right card-arrow"></i></a>
-                    <a href="emi.jpg" target="_blank" class="option-card"><i class="fas fa-chart-line card-icon"></i><div>Partner EMI Details</div><i class="fas fa-chevron-right card-arrow"></i></a>
-                    <a href="discount.jpg" target="_blank" class="option-card"><i class="fas fa-chart-line card-icon"></i><div>Partner Discount Details</div><i class="fas fa-chevron-right card-arrow"></i></a>
-                    <a href="Debit Card.jpg" target="_blank" class="option-card"><i class="fas fa-ellipsis-h card-icon"></i><div>Debit Card Charges</div><i class="fas fa-chevron-right card-arrow"></i></a>
+                    <a href="consumer.jpg" target="_blank" class="option-card"><i class="fas fa-user card-icon"></i><div>Consumer Charges & Fees</div></a>
+                    <a href="corporate.jpg" target="_blank" class="option-card"><i class="fas fa-building card-icon"></i><div>Corporate Charges & Fees</div></a>
+                    <a href="emi.jpg" target="_blank" class="option-card"><i class="fas fa-chart-line card-icon"></i><div>Partner EMI Details</div></a>
+                    <a href="discount.jpg" target="_blank" class="option-card"><i class="fas fa-percent card-icon"></i><div>Partner Discount Details</div></a>
+                    <a href="Debit Card.jpg" target="_blank" class="option-card"><i class="fas fa-credit-card card-icon"></i><div>Debit Card Charges</div></a>
                  </div>
             </section>
 
-        </main>
+            <section class="page" id="page-credit-card-circular">
+                <h2 class="page-title">Credit Card Circular</h2>
+                <div class="options-grid">
+                    <a href="senior citizen.pdf" target="_blank" class="circular-card">
+                        <div class="circular-icon"><i class="fas fa-id-card"></i></div>
+                        <div class="circular-text">Credit card against senior citizen</div>
+                    </a>
+                    <a href="swadhin sanchay.pdf" target="_blank" class="circular-card">
+                        <div class="circular-icon"><i class="fas fa-piggy-bank"></i></div>
+                        <div class="circular-text">Credit card against independent savings</div>
+                    </a>
+                    <a href="Revised Interest on Credit Card.pdf" target="_blank" class="circular-card">
+                        <div class="circular-icon"><i class="fas fa-percent"></i></div>
+                        <div class="circular-text">Revised interest rate of credit card</div>
+                    </a>
+                    <a href="Annexure-01 (updated).pdf" target="_blank" class="circular-card">
+                        <div class="circular-icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="circular-text">Annexure-01, Update</div>
+                    </a>
+                </div>
+            </section>
+
+
+            <section class="page" id="page-notice">
+                <h2 class="page-title">Notice</h2>
+                <div class="calculator-container" style="text-align: left;">
+                    <p><strong>অ্যাপ এর আপডেট পেতে:</strong></p>
+                    <ul>
+                        <li>অ্যাপ এর ডাটা ক্লিয়ার করুন।</li>
+                        <li>আবার অ্যাপটি ওপেন করুন।</li>
+                    </ul>
+                </div>
+            </section>
+
+</main>
         
         <footer>
             Created by: Md. Jahidul Islam, PBL, Mirerdanga Branch, Khulna.
@@ -764,11 +853,15 @@
             const btn = document.getElementById('fdr-calculate-btn'), resDiv = document.getElementById('fdr-result');
             btn.addEventListener('click', () => {
                 const amount = parseFloat(document.getElementById('fdr-amount').value);
-                const months = parseInt(document.getElementById('fdr-months').value);
+                const monthsOption = document.getElementById('fdr-months').value;
+                const months = parseFloat(monthsOption);
                 const tax = parseFloat(document.getElementById('fdr-tax-deduction').value);
                 if (isNaN(amount) || amount <= 0) { resDiv.innerHTML = 'Invalid amount.'; resDiv.style.display = 'block'; return; }
-                const rates = { 1: 5, 3: 8.50, 6: 8.75, 12: 9 };
-                const totalInterest = amount * (rates[months] / 100) * (months / 12);
+                
+                const rates = { '1': 5, '3': 8, '3.10': 8, '6': 8.25, '12': 8.50 };
+                const rate = rates[monthsOption];
+
+                const totalInterest = amount * (rate / 100) * (months / 12);
                 const taxAmount = totalInterest * (tax / 100);
                 resDiv.innerHTML = `<strong>Gross Interest:</strong> ${totalInterest.toFixed(2)}<br><strong>Tax (${tax}%):</strong> -${taxAmount.toFixed(2)}<br><hr style="margin: 8px 0;"><strong>Net Interest:</strong> ${(totalInterest - taxAmount).toFixed(2)}`;
                 resDiv.style.display = 'block';
@@ -852,6 +945,34 @@
                 document.getElementById('elsl-totalMonthlyInstallment').textContent = format(monthlyInstall > 0 ? monthlyInstall : 0);
             });
         })();
+
+        // ================================================== //
+        // ========= 9. SCROLL HIGHLIGHT LOGIC ============== //
+        // ================================================== //
+        (() => {
+            const cards = document.querySelectorAll('.dashboard-card');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        // Optional: Add a delay for each card to stagger the animation
+                        setTimeout(() => {
+                            entry.target.classList.add('visible');
+                        }, index * 100); // 100ms delay between each card
+                        
+                        // Stop observing the element after it has been animated once
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the item is visible
+            });
+
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+        })();
+
 
     });
     </script>
