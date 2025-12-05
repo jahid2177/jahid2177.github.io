@@ -11,338 +11,241 @@
         /* ============== 1. GLOBAL & APP SHELL ============= */
         /* ================================================== */
         :root {
-            --primary-color: #6C63FF; /* Modern Purple */
-            --secondary-color: #00BFA6; /* Modern Teal */
-            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --card-bg: #ffffff;
-            --text-color: #2D3748;
-            --glass-border: 1px solid rgba(255, 255, 255, 0.3);
-            --shadow-soft: 0 8px 30px rgba(0,0,0,0.05);
-            --shadow-hover: 0 15px 35px rgba(0,0,0,0.1);
-            --border-radius: 20px;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-color: #f3f4f6;
+            --text-dark: #1f2937;
+            --card-radius: 20px;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 15px rgba(0, 0, 0, 0.1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-color);
+            background: #eef2f5;
+            color: var(--text-dark);
             min-height: 100vh;
         }
 
         .app-shell {
-            max-width: 100%; /* Full width for modern feel */
+            max-width: 600px;
+            margin: 0 auto;
             min-height: 100vh;
-            background: rgba(255, 255, 255, 0.85); /* Glassy effect */
-            backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-soft);
+            background: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.03);
             display: flex;
             flex-direction: column;
         }
 
         /* --- HEADER --- */
         header {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 20px 25px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
         }
 
-        .header-left { display: flex; align-items: center; gap: 15px; }
+        .header-left { display: flex; align-items: center; gap: 12px; }
 
         #header-back-btn {
-            background: #f0f2f5;
+            background: #f3f4f6;
             border: none;
-            color: var(--text-color);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            color: #4b5563;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             cursor: pointer;
             display: none;
-            transition: all 0.3s ease;
-            display: flex; align-items: center; justify-content: center;
+            align-items: center; justify-content: center;
+            font-size: 1rem;
+            transition: all 0.2s;
         }
-        #header-back-btn:hover { background: #e2e8f0; transform: translateX(-3px); }
+        #header-back-btn:active { transform: scale(0.95); background: #e5e7eb; }
 
         .logo {
-            font-size: 1.4em;
+            font-size: 1.3rem;
             font-weight: 700;
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             cursor: pointer;
         }
 
-        .nav-buttons .nav-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            border: none;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: 500;
-            font-size: 0.9em;
-            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .nav-buttons .nav-btn:hover { transform: scale(1.05); }
+        main { padding: 20px; flex-grow: 1; overflow-y: auto; }
 
-        main { padding: 25px 20px; flex-grow: 1; overflow-x: hidden; }
-
-        .page { display: none; animation: slideUp 0.4s ease-out; }
+        .page { display: none; animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .page.active { display: block; }
         
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .page-title {
-            font-size: 1.8em;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--text-color);
+            color: #111827;
             margin-bottom: 25px;
-            padding-left: 10px;
-            border-left: 5px solid var(--primary-color);
+            text-align: left;
+            position: relative;
+            padding-left: 15px;
+        }
+        .page-title::before {
+            content: ''; position: absolute; left: 0; top: 5px; bottom: 5px;
+            width: 4px; background: var(--primary-gradient); border-radius: 4px;
         }
 
         /* ================================================== */
-        /* ======= MODERN HORIZONTAL SCROLL CARDS =========== */
+        /* ============ PREMIUM GRID CARDS CSS ============== */
         /* ================================================== */
-        
-        /* Container for scrolling */
         .dashboard-grid, .options-grid {
-            display: flex;
-            flex-wrap: nowrap; /* Prevents wrapping to next line */
-            overflow-x: auto; /* Enables horizontal scroll */
-            gap: 20px;
-            padding: 10px 5px 30px 5px; /* Bottom padding for shadow */
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch; /* Smooth scroll on iOS */
-            /* Hide scrollbar */
-            scrollbar-width: none; 
-            -ms-overflow-style: none;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding-bottom: 20px;
         }
-        .dashboard-grid::-webkit-scrollbar, .options-grid::-webkit-scrollbar {
-            display: none;
+        @media (min-width: 480px) {
+            .dashboard-grid, .options-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
         }
 
-        /* Common Card Style */
         .dashboard-card, .option-card, .circular-card {
-            min-width: 160px; /* Fixed width */
-            width: 160px;
-            height: 200px; /* Taller modern aspect ratio */
-            flex: 0 0 auto; /* Prevent shrinking */
-            
-            background: white;
-            border-radius: 24px;
-            padding: 20px;
+            background: #ffffff;
+            border-radius: var(--card-radius);
+            padding: 20px 15px;
             text-align: center;
             text-decoration: none;
-            
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            
-            box-shadow: var(--shadow-soft);
-            border: 1px solid rgba(0,0,0,0.03);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            overflow: hidden;
             cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid #f0f0f0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            aspect-ratio: 1 / 1.1;
         }
-
-        /* Unique Gradients for a Colorful Look */
-        .dashboard-card:nth-child(1) { background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 100%); }
-        .dashboard-card:nth-child(2) { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
-        .dashboard-card:nth-child(3) { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
-        .dashboard-card:nth-child(4) { background: linear-gradient(135deg, #fccb90 0%, #d57eeb 100%); }
-        .dashboard-card:nth-child(5) { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }
-        .dashboard-card:nth-child(6) { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
-        .dashboard-card:nth-child(7) { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
-        .dashboard-card:nth-child(8) { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
-        .dashboard-card:nth-child(9) { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
-        .dashboard-card:nth-child(10) { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-
-        /* Style for Option/Circular Cards (Blue Theme) */
-        .option-card, .circular-card {
-            background: white;
-            border: 1px solid #eef2f7;
-        }
-        
-        /* Hover Effects */
         .dashboard-card:hover, .option-card:hover, .circular-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: var(--shadow-hover);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: var(--shadow-md);
         }
 
-        /* Typography & Icons in Cards */
-        .dashboard-card h3, .option-card div, .circular-text {
-            color: #fff;
-            font-size: 1em;
-            font-weight: 600;
-            margin-top: 15px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            line-height: 1.3;
+        .icon-box {
+            width: 60px; height: 60px; border-radius: 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; margin-bottom: 15px; color: white;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); transition: transform 0.3s;
         }
+        .dashboard-card:hover .icon-box { transform: rotate(10deg) scale(1.1); }
 
-        .option-card div, .circular-text { color: var(--text-color); } /* Dark text for white cards */
+        .c-1 .icon-box { background: linear-gradient(135deg, #FF9A9E, #FECFEF); }
+        .c-2 .icon-box { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+        .c-3 .icon-box { background: linear-gradient(135deg, #84fab0, #8fd3f4); }
+        .c-4 .icon-box { background: linear-gradient(135deg, #fccb90, #d57eeb); }
+        .c-5 .icon-box { background: linear-gradient(135deg, #e0c3fc, #8ec5fc); }
+        .c-6 .icon-box { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .c-7 .icon-box { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .c-8 .icon-box { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+        .c-9 .icon-box { background: linear-gradient(135deg, #fa709a, #fee140); }
+        .c-10 .icon-box { background: linear-gradient(135deg, #667eea, #764ba2); }
 
-        .dashboard-card .icon, .card-icon, .circular-icon {
-            font-size: 2em;
-            background: rgba(255,255,255,0.25);
-            backdrop-filter: blur(5px);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            margin-bottom: 5px;
-        }
-
-        .option-card .card-icon, .circular-card .circular-icon {
-            background: #f0f5ff;
-            color: var(--primary-color);
-        }
+        .card-title { font-size: 0.95rem; font-weight: 600; color: #374151; line-height: 1.4; }
+        .option-card, .circular-card { background: #fff; color: var(--text-dark); }
+        .option-card .icon-box, .circular-card .icon-box { background: #f3f4f6; color: #667eea; box-shadow: none; }
 
         /* --- CALCULATOR INPUTS --- */
-        .calculator-container {
-            background: white;
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: var(--shadow-soft);
-            margin: 0 auto;
-            max-width: 600px;
-        }
-        
-        .calc-input-group label { font-size: 0.9em; color: #718096; margin-bottom: 8px; font-weight: 600; }
+        .calculator-container { background: white; padding: 25px; border-radius: 20px; box-shadow: var(--shadow-sm); border: 1px solid #f0f0f0; }
+        .calc-input-group { margin-bottom: 20px; }
+        .calc-input-group label { display: block; font-size: 0.9rem; color: #6b7280; margin-bottom: 8px; font-weight: 500; }
         .calc-input-group input, .calc-input-group select {
-            width: 100%; padding: 15px; border-radius: 12px;
-            border: 2px solid #edf2f7; background: #f8fafc;
-            font-size: 1em; color: #2d3748; transition: all 0.3s;
+            width: 100%; padding: 14px; border-radius: 12px;
+            border: 2px solid #f3f4f6; background: #f9fafb;
+            font-size: 1rem; color: #1f2937; transition: 0.3s;
         }
         .calc-input-group input:focus, .calc-input-group select:focus {
-            border-color: var(--primary-color); background: white; outline: none;
-            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.1);
+            border-color: #a78bfa; background: white; outline: none;
+            box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.1);
         }
-        
         .calc-btn {
-            width: 100%; padding: 16px; border: none; border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary-color), #8e44ad);
-            color: white; font-size: 1.1em; font-weight: 600;
-            cursor: pointer; box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
-            transition: all 0.3s; margin-top: 15px;
+            width: 100%; padding: 16px; border: none; border-radius: 14px;
+            background: var(--primary-gradient); color: white;
+            font-size: 1rem; font-weight: 600; cursor: pointer;
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.25); margin-top: 10px;
         }
-        .calc-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(108, 99, 255, 0.4); }
-        .calc-btn-secondary { background: #cbd5e0; color: #4a5568; box-shadow: none; }
-        .calc-btn-secondary:hover { background: #a0aec0; color: white; }
-
+        .calc-btn-secondary { background: #e5e7eb; color: #374151; box-shadow: none; }
         .calc-result {
-            margin-top: 25px; padding: 20px; border-radius: 15px;
-            background: #f0f5ff; border-left: 5px solid var(--primary-color);
-            display: none; animation: fadeIn 0.4s;
+            margin-top: 25px; padding: 20px; border-radius: 16px;
+            background: #f5f3ff; border: 1px solid #ddd6fe; color: #5b21b6; display: none;
         }
 
         /* --- FOOTER --- */
-        footer {
-            margin-top: auto; padding: 25px; text-align: center;
-            font-size: 0.85em; color: #a0aec0;
-            background: white;
-        }
+        footer { padding: 25px; text-align: center; font-size: 0.8rem; color: #9ca3af; background: #f9fafb; margin-top: auto; }
 
-        /* --- SPECIFIC CALCULATOR STYLES --- */
-        /* Main Calc */
-        #page-main-calculator .calculator {
-            background: #2D3748; border-radius: 30px; padding: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2); width: 100%; max-width: 360px; margin: auto;
-        }
-        #page-main-calculator .display {
-            background: #1A202C; border-radius: 20px; padding: 20px; margin-bottom: 20px;
-            text-align: right; color: white; min-height: 100px; display: flex; flex-direction: column; justify-content: flex-end;
-        }
-        #page-main-calculator .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
-        #page-main-calculator button {
-            width: 100%; aspect-ratio: 1; border-radius: 50%; border: none; font-size: 1.4em;
-            background: #4A5568; color: white; cursor: pointer; transition: 0.2s;
-        }
-        #page-main-calculator button:active { transform: scale(0.9); }
-        #page-main-calculator .operator { background: #FF9F43; color: white; }
-        #page-main-calculator .equals { background: #28C76F; }
-        #page-main-calculator .ac { background: #EA5455; }
+        /* --- Main Calculator --- */
+        #page-main-calculator .calculator { background: #1f2937; border-radius: 25px; padding: 20px; min-height: 400px; display: flex; flex-direction: column; }
+        #page-main-calculator .display { background: #111827; border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: right; color: white; flex-grow: 1; }
+        #page-main-calculator .history { color: #6b7280; font-size: 0.9rem; min-height: 1.2rem; }
+        #page-main-calculator .result { font-size: 2.5rem; font-weight: 500; }
+        #page-main-calculator .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        #page-main-calculator button { aspect-ratio: 1; border-radius: 50%; border: none; font-size: 1.2rem; background: #374151; color: white; cursor: pointer; }
+        #page-main-calculator .operator { background: #f59e0b; }
+        #page-main-calculator .equals { background: #10b981; }
+        #page-main-calculator .ac { background: #ef4444; }
 
-        /* Fullscreen Mode */
-        body.calculator-fullscreen .app-shell { border-radius: 0; }
+        /* Fullscreen */
+        body.calculator-fullscreen .app-shell { max-width: 100%; border-radius: 0; box-shadow: none; }
         body.calculator-fullscreen header, body.calculator-fullscreen footer { display: none; }
-        body.calculator-fullscreen #page-main-calculator .calculator { max-width: 100%; height: 100vh; border-radius: 0; }
-        
-        .fullscreen-home-btn {
+        body.calculator-fullscreen main { padding: 0; }
+        body.calculator-fullscreen #page-main-calculator .calculator { height: 100vh; border-radius: 0; }
+        .fullscreen-home-btn { 
             position: fixed; top: 20px; left: 20px; z-index: 2000;
-            background: rgba(255,255,255,0.2); width: 50px; height: 50px; border-radius: 50%;
-            display: none; align-items: center; justify-content: center; color: white; border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1); width: 45px; height: 45px; border-radius: 50%;
+            display: none; align-items: center; justify-content: center; color: white; 
+            backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.2);
         }
         body.calculator-fullscreen .fullscreen-home-btn { display: flex; }
 
         /* Modal */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; backdrop-filter: blur(5px); }
-        .modal-content { background: white; margin: 10% auto; padding: 30px; width: 90%; max-width: 500px; border-radius: 20px; animation: slideUp 0.3s; }
-        .modal-header { display: flex; justify-content: space-between; margin-bottom: 20px; font-weight: bold; font-size: 1.2em; }
-        .close-btn { cursor: pointer; font-size: 1.5em; color: #e53e3e; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; backdrop-filter: blur(4px); }
+        .modal-content { background: white; margin: 15% auto; padding: 25px; width: 90%; max-width: 400px; border-radius: 20px; animation: scaleIn 0.2s; }
+        @keyframes scaleIn { from{transform:scale(0.9);opacity:0} to{transform:scale(1);opacity:1} }
+        .close-btn { float: right; font-size: 1.5rem; cursor: pointer; color: #ef4444; }
 
     </style>
 </head>
 <body>
-    <button class="fullscreen-home-btn" data-target="dashboard" title="Go to Dashboard">
-        <i class="fas fa-home"></i>
-    </button>
+    <button class="fullscreen-home-btn" data-target="dashboard"><i class="fas fa-home"></i></button>
     
     <div class="app-shell">
         <header>
             <div class="header-left">
-                <button id="header-back-btn" title="Go Back">
-                    <i class="fas fa-arrow-left"></i>
-                </button>
-                <div class="logo">
-                    <i class="fas fa-calculator"></i> CalcSuite
-                </div>
-            </div>
-            <div class="nav-buttons">
-                <button class="nav-btn" data-target="dashboard"><i class="fas fa-home"></i> Home</button>
+                <button id="header-back-btn"><i class="fas fa-chevron-left"></i></button>
+                <div class="logo"><i class="fas fa-calculator" style="margin-right:8px;"></i>CalcSuite</div>
             </div>
         </header>
 
         <main id="content-area">
 
             <section class="page active" id="page-dashboard">
-                <h2 class="page-title">Calculators</h2>
+                <h2 class="page-title">Tools & Calculators</h2>
                 <div class="dashboard-grid">
-                    <div class="dashboard-card" data-target="main-calculator"><span class="icon"><i class="fas fa-calculator"></i></span><h3>Standard<br>Calc</h3></div>
-                    <div class="dashboard-card" data-target="age-calculator"><span class="icon"><i class="fas fa-birthday-cake"></i></span><h3>Age<br>Calc</h3></div>
-                    <div class="dashboard-card" data-target="emi-calculator"><span class="icon"><i class="fas fa-chart-pie"></i></span><h3>EMI<br>Calc</h3></div>
-                    <div class="dashboard-card" data-target="fdr-calculator"><span class="icon"><i class="fas fa-piggy-bank"></i></span><h3>FDR<br>Calc</h3></div>
-                    <div class="dashboard-card" data-target="dps-calculator"><span class="icon"><i class="fas fa-wallet"></i></span><h3>DPS<br>Calc</h3></div>
-                    <div class="dashboard-card" data-target="dbr-calculator"><span class="icon"><i class="fas fa-percentage"></i></span><h3>DBR<br>Calc</h3></div>
-                    <div class="dashboard-card" data-target="elsl-calculator"><span class="icon"><i class="fas fa-user-tie"></i></span><h3>Employee<br>Loan</h3></div>
-                    <div class="dashboard-card" data-target="credit-card"><span class="icon"><i class="fas fa-credit-card"></i></span><h3>Card<br>Info</h3></div>
-                    <div class="dashboard-card" data-target="credit-card-circular"><span class="icon"><i class="fas fa-file-alt"></i></span><h3>Card<br>Circular</h3></div>
-                    <div class="dashboard-card" data-target="notice"><span class="icon"><i class="fas fa-bell"></i></span><h3>Important<br>Notice</h3></div>
+                    <div class="dashboard-card c-1" data-target="main-calculator"><div class="icon-box"><i class="fas fa-calculator"></i></div><div class="card-title">Standard<br>Calc</div></div>
+                    <div class="dashboard-card c-2" data-target="age-calculator"><div class="icon-box"><i class="fas fa-birthday-cake"></i></div><div class="card-title">Age<br>Calc</div></div>
+                    <div class="dashboard-card c-3" data-target="emi-calculator"><div class="icon-box"><i class="fas fa-chart-pie"></i></div><div class="card-title">EMI<br>Calc</div></div>
+                    <div class="dashboard-card c-4" data-target="fdr-calculator"><div class="icon-box"><i class="fas fa-piggy-bank"></i></div><div class="card-title">FDR<br>Calc</div></div>
+                    <div class="dashboard-card c-5" data-target="dps-calculator"><div class="icon-box"><i class="fas fa-wallet"></i></div><div class="card-title">DPS<br>Calc</div></div>
+                    <div class="dashboard-card c-6" data-target="dbr-calculator"><div class="icon-box"><i class="fas fa-percentage"></i></div><div class="card-title">DBR<br>Calc</div></div>
+                    <div class="dashboard-card c-7" data-target="elsl-calculator"><div class="icon-box"><i class="fas fa-user-tie"></i></div><div class="card-title">Employee<br>Loan</div></div>
+                    <div class="dashboard-card c-8" data-target="credit-card"><div class="icon-box"><i class="fas fa-credit-card"></i></div><div class="card-title">Card<br>Info</div></div>
+                    <div class="dashboard-card c-9" data-target="credit-card-circular"><div class="icon-box"><i class="fas fa-file-alt"></i></div><div class="card-title">Card<br>Circular</div></div>
+                    <div class="dashboard-card c-10" data-target="notice"><div class="icon-box"><i class="fas fa-bell"></i></div><div class="card-title">Important<br>Notice</div></div>
                </div>
             </section>
 
             <section class="page" id="page-main-calculator">
-                <h2 class="page-title">Standard Calculator</h2>
                 <div class="calculator">
                     <div class="display">
                         <div class="history" id="main-calc-history"></div>
@@ -361,19 +264,34 @@
             <section class="page" id="page-age-calculator">
                 <h2 class="page-title">Age Calculator</h2>
                 <div class="calculator-container">
-                    <div class="calc-input-group"><label>Current Date</label><div class="date-selectors" style="display:grid; grid-template-columns:1fr 1.5fr 1fr; gap:10px;"><select id="age-current-day"></select><select id="age-current-month"></select><select id="age-current-year"></select></div></div>
-                    <div class="calc-input-group"><label>Date of Birth</label><div class="date-selectors" style="display:grid; grid-template-columns:1fr 1.5fr 1fr; gap:10px;"><select id="age-dob-day"></select><select id="age-dob-month"></select><select id="age-dob-year"></select></div></div>
+                    <div class="calc-input-group">
+                        <label>Current Date</label>
+                        <div style="display:grid; grid-template-columns:1fr 1.5fr 1fr; gap:8px;">
+                            <select id="age-current-day"></select><select id="age-current-month"></select><select id="age-current-year"></select>
+                        </div>
+                    </div>
+                    <div class="calc-input-group">
+                        <label>Date of Birth</label>
+                        <div style="display:grid; grid-template-columns:1fr 1.5fr 1fr; gap:8px;">
+                            <select id="age-dob-day"></select><select id="age-dob-month"></select><select id="age-dob-year"></select>
+                        </div>
+                    </div>
                     <button class="calc-btn" id="age-calculate-btn">Calculate Age</button>
                     <div class="calc-result" id="age-result"></div>
                 </div>
             </section>
 
             <section class="page" id="page-emi-calculator">
-                <h2 class="page-title">Easy EMI Calculator</h2>
+                <h2 class="page-title">EMI Calculator</h2>
                 <div class="calculator-container">
-                    <div class="calc-input-group"><label>Loan Principal Amount</label><input type="number" id="emi-principal" placeholder="Enter Amount"></div>
-                    <div class="calc-input-group"><label>Interest Rate % (p.a.)</label><input type="number" id="emi-rate" placeholder="Enter Interest Rate"></div>
-                    <div class="calc-input-group"><label>Loan Tenure</label><input type="number" id="emi-tenure" placeholder="Enter Duration"><div style="margin-top:10px;"><label><input type="radio" name="tenure_type" value="months" checked> Months</label><label style="margin-left:15px;"><input type="radio" name="tenure_type" value="years"> Years</label></div></div>
+                    <div class="calc-input-group"><label>Principal Amount</label><input type="number" id="emi-principal" placeholder="500000"></div>
+                    <div class="calc-input-group"><label>Interest Rate (%)</label><input type="number" id="emi-rate" placeholder="9.0"></div>
+                    <div class="calc-input-group"><label>Tenure</label><input type="number" id="emi-tenure" placeholder="Duration">
+                        <div style="margin-top:8px; display:flex; gap:15px; font-size:0.9rem;">
+                            <label><input type="radio" name="tenure_type" value="months" checked> Months</label>
+                            <label><input type="radio" name="tenure_type" value="years"> Years</label>
+                        </div>
+                    </div>
                     <button id="emi-calculate-btn" class="calc-btn">Calculate EMI</button>
                     <button id="emi-amortization-btn" class="calc-btn calc-btn-secondary">View Schedule</button>
                     <div id="emi-result" class="calc-result"></div>
@@ -383,10 +301,10 @@
             <section class="page" id="page-fdr-calculator">
                  <h2 class="page-title">FDR Calculator</h2>
                  <div class="calculator-container">
-                    <div class="calc-input-group"><label>Deposit Amount (BDT)</label><input type="number" id="fdr-amount" placeholder="e.g., 100000"></div>
-                    <div class="calc-input-group"><label>Select Tenure</label><select id="fdr-months"><option value="1">1 Month (Rate: 5%)</option><option value="3">3 Months (Rate: 8.00%)</option><option value="3.10">3.10 Months (Rate: 8.00%)</option><option value="6">6 Months (Rate: 8.25%)</option><option value="12" selected>12 Months (Rate: 8.50%)</option></select></div>
-                    <div class="calc-input-group"><label>Tax Deduction (%)</label><select id="fdr-tax-deduction"><option value="10">10%</option><option value="15">15%</option></select></div>
-                    <button class="calc-btn" id="fdr-calculate-btn">Calculate</button>
+                    <div class="calc-input-group"><label>Deposit Amount</label><input type="number" id="fdr-amount" placeholder="100000"></div>
+                    <div class="calc-input-group"><label>Tenure</label><select id="fdr-months"><option value="1">1 Month (5%)</option><option value="3">3 Months (8.00%)</option><option value="3.10">3.10 Months (8.00%)</option><option value="6">6 Months (8.25%)</option><option value="12" selected>12 Months (8.50%)</option></select></div>
+                    <div class="calc-input-group"><label>Tax Deduction</label><select id="fdr-tax-deduction"><option value="10">10%</option><option value="15">15%</option></select></div>
+                    <button class="calc-btn" id="fdr-calculate-btn">Calculate Return</button>
                     <div id="fdr-result" class="calc-result"></div>
                  </div>
             </section>
@@ -394,8 +312,8 @@
             <section class="page" id="page-dps-calculator">
                  <h2 class="page-title">DPS Calculator</h2>
                  <div class="calculator-container">
-                    <div class="calc-input-group"><label>Monthly Deposit Amount (BDT)</label><input type="number" id="dps-monthly-deposit" placeholder="e.g., 5000"></div>
-                    <div class="calc-input-group"><label>Select Tenure (Years)</label><select id="dps-tenure"><option value="3">3 Years (Rate: 7.25%)</option><option value="5">5 Years (Rate: 7.25%)</option><option value="7">7 Years (Rate: 7.50%)</option><option value="10">10 Years (Rate: 7.50%)</option></select></div>
+                    <div class="calc-input-group"><label>Monthly Deposit</label><input type="number" id="dps-monthly-deposit" placeholder="5000"></div>
+                    <div class="calc-input-group"><label>Tenure (Years)</label><select id="dps-tenure"><option value="3">3 Years (7.25%)</option><option value="5">5 Years (7.25%)</option><option value="7">7 Years (7.50%)</option><option value="10">10 Years (7.50%)</option></select></div>
                     <button class="calc-btn" id="dps-calculate-btn">Calculate Maturity</button>
                     <button id="dps-chart-btn" class="calc-btn calc-btn-secondary">View Chart</button>
                     <div id="dps-result" class="calc-result"></div>
@@ -405,11 +323,11 @@
             <section class="page" id="page-dbr-calculator">
                 <h2 class="page-title">DBR Calculator</h2>
                 <div class="calculator-container">
-                    <div class="calc-input-group"><label>Gross Income (Monthly)</label><input type="number" id="dbr-grossIncome" placeholder="e.g., 50000"></div>
-                    <div class="calc-input-group"><label>Existing Total Credit Card Limit</label><input type="number" id="dbr-creditCardLimit" placeholder="e.g., 100000"></div>
-                    <div class="calc-input-group"><label>Proposed Credit Card Limit</label><input type="number" id="dbr-proposed-limit" placeholder="e.g., 50000"></div>
-                    <div class="calc-input-group"><label>Existing Loan EMI (Monthly)</label><input type="number" id="dbr-existingEMI" placeholder="e.g., 5000"></div>
-                    <div class="calc-input-group"><label>Proposed Loan EMI (Monthly)</label><input type="number" id="dbr-proposedEMI" placeholder="e.g., 10000"></div>
+                    <div class="calc-input-group"><label>Gross Monthly Income</label><input type="number" id="dbr-grossIncome" placeholder="50000"></div>
+                    <div class="calc-input-group"><label>Existing Credit Card Limit</label><input type="number" id="dbr-creditCardLimit" placeholder="0"></div>
+                    <div class="calc-input-group"><label>Proposed Credit Card Limit</label><input type="number" id="dbr-proposed-limit" placeholder="0"></div>
+                    <div class="calc-input-group"><label>Existing Loan EMI</label><input type="number" id="dbr-existingEMI" placeholder="0"></div>
+                    <div class="calc-input-group"><label>Proposed Loan EMI</label><input type="number" id="dbr-proposedEMI" placeholder="0"></div>
                     <button id="dbr-calculate-btn" class="calc-btn">Calculate DBR</button>
                     <div class="calc-result" id="dbr-result"></div>
                 </div>
@@ -418,18 +336,19 @@
             <section class="page" id="page-elsl-calculator">
                 <h2 class="page-title">Employee Loan</h2>
                 <div class="calculator-container">
-                    <div class="calc-input-group"><label>Gross Salary (৳)</label><input type="number" id="elsl-grossSalary" placeholder="Enter gross salary"></div>
-                    <div class="calc-input-group"><label>Take Home Salary (৳)</label><input type="number" id="elsl-takeHomeSalary" placeholder="Enter take home salary"></div>
-                    <div class="calc-input-group"><label>Spouse's Take Home Salary (৳)</label><input type="number" id="elsl-spouseSalary" placeholder="Enter spouse salary"></div>
-                    <div class="calc-input-group"><label>Loan Tenure</label><select id="elsl-tenure"><option value="3110">3 Years (৳3,110/lac)</option><option value="2410">4 Years (৳2,410/lac)</option><option value="1980">5 Years (৳1,980/lac)</option><option value="1680">6 Years (৳1,680/lac)</option><option value="1480">7 Years (৳1,480/lac)</option></select></div>
+                    <div class="calc-input-group"><label>Gross Salary</label><input type="number" id="elsl-grossSalary" placeholder="Enter Amount"></div>
+                    <div class="calc-input-group"><label>Take Home Salary</label><input type="number" id="elsl-takeHomeSalary" placeholder="Enter Amount"></div>
+                    <div class="calc-input-group"><label>Spouse's Take Home</label><input type="number" id="elsl-spouseSalary" placeholder="Enter Amount"></div>
+                    <div class="calc-input-group"><label>Tenure</label><select id="elsl-tenure"><option value="3110">3 Years (৳3,110/lac)</option><option value="2410">4 Years (৳2,410/lac)</option><option value="1980">5 Years (৳1,980/lac)</option><option value="1680">6 Years (৳1,680/lac)</option><option value="1480">7 Years (৳1,480/lac)</option></select></div>
                     <button class="calc-btn" id="elsl-calculate-btn">Check Eligibility</button>
                     
-                    <div style="margin-top:20px; background:#f8fafc; padding:15px; border-radius:12px; border:1px solid #e2e8f0;">
-                         <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>Present Deduction:</span><span style="font-weight:600;" id="elsl-presentDeduction">-</span></div>
-                         <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>50% Gross:</span><span style="font-weight:600;" id="elsl-halfGross">-</span></div>
-                         <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>Max Installment:</span><span style="font-weight:600;" id="elsl-maxInstallment">-</span></div>
-                         <div style="display:flex; justify-content:space-between; margin-bottom:10px; color:var(--primary-color);"><span>Eligible Limit:</span><span style="font-weight:700;" id="elsl-eligibleLimit">-</span></div>
-                         <div style="display:flex; justify-content:space-between; font-size:1.1em; color:var(--secondary-color);"><span>Monthly Pay:</span><span style="font-weight:700;" id="elsl-totalMonthlyInstallment">-</span></div>
+                    <div style="margin-top:20px; font-size:0.9rem;">
+                         <div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid #eee;"><span>Present Deduction:</span><span style="font-weight:600;" id="elsl-presentDeduction">-</span></div>
+                         <div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid #eee;"><span>50% Gross:</span><span style="font-weight:600;" id="elsl-halfGross">-</span></div>
+                         <div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid #eee;"><span>Max Installment:</span><span style="font-weight:600;" id="elsl-maxInstallment">-</span></div>
+                         <div style="display:flex; justify-content:space-between; margin-bottom:8px; border-bottom:1px solid #eee;"><span>Installment per Lac:</span><span style="font-weight:600;" id="elsl-perLacInstallment">-</span></div>
+                         <div style="display:flex; justify-content:space-between; margin-bottom:8px; color:var(--primary-gradient);"><span>Eligible Limit:</span><span style="font-weight:700;" id="elsl-eligibleLimit">-</span></div>
+                         <div style="display:flex; justify-content:space-between; font-size:1.1em; background:#f0f9ff; padding:8px; border-radius:8px;"><span>Monthly Installment:</span><span style="font-weight:700; color:#0284c7;" id="elsl-totalMonthlyInstallment">-</span></div>
                     </div>
                 </div>
             </section>
@@ -437,42 +356,30 @@
             <section class="page" id="page-credit-card">
                  <h2 class="page-title">Credit Card Services</h2>
                  <div class="options-grid">
-                    <a href="consumer.jpg" target="_blank" class="option-card"><div class="card-icon"><i class="fas fa-user"></i></div><div>Consumer<br>Charges</div></a>
-                    <a href="corporate.jpg" target="_blank" class="option-card"><div class="card-icon"><i class="fas fa-building"></i></div><div>Corporate<br>Charges</div></a>
-                    <a href="emi.jpg" target="_blank" class="option-card"><div class="card-icon"><i class="fas fa-chart-line"></i></div><div>Partner<br>EMI</div></a>
-                    <a href="discount.jpg" target="_blank" class="option-card"><div class="card-icon"><i class="fas fa-percent"></i></div><div>Partner<br>Discount</div></a>
-                    <a href="Debit Card.jpg" target="_blank" class="option-card"><div class="card-icon"><i class="fas fa-credit-card"></i></div><div>Debit Card<br>Charges</div></a>
+                    <a href="consumer.jpg" target="_blank" class="option-card"><div class="icon-box"><i class="fas fa-user"></i></div><div class="card-title">Consumer<br>Charges</div></a>
+                    <a href="corporate.jpg" target="_blank" class="option-card"><div class="icon-box"><i class="fas fa-building"></i></div><div class="card-title">Corporate<br>Charges</div></a>
+                    <a href="emi.jpg" target="_blank" class="option-card"><div class="icon-box"><i class="fas fa-chart-line"></i></div><div class="card-title">Partner<br>EMI</div></a>
+                    <a href="discount.jpg" target="_blank" class="option-card"><div class="icon-box"><i class="fas fa-percent"></i></div><div class="card-title">Partner<br>Discount</div></a>
+                    <a href="Debit Card.jpg" target="_blank" class="option-card"><div class="icon-box"><i class="fas fa-credit-card"></i></div><div class="card-title">Debit Card<br>Charges</div></a>
                  </div>
             </section>
 
             <section class="page" id="page-credit-card-circular">
                 <h2 class="page-title">Circulars</h2>
                 <div class="options-grid">
-                    <a href="senior citizen.jpg" target="_blank" class="circular-card">
-                        <div class="circular-icon"><i class="fas fa-id-card"></i></div>
-                        <div class="circular-text">Senior<br>Citizen</div>
-                    </a>
-                    <a href="swadhin sanchay.jpg" target="_blank" class="circular-card">
-                        <div class="circular-icon"><i class="fas fa-piggy-bank"></i></div>
-                        <div class="circular-text">Independent<br>Savings</div>
-                    </a>
-                    <a href="Revised Interest on Credit Card.jpg" target="_blank" class="circular-card">
-                        <div class="circular-icon"><i class="fas fa-percent"></i></div>
-                        <div class="circular-text">Revised<br>Interest</div>
-                    </a>
-                    <a href="Annexure-01 (updated).jpg" target="_blank" class="circular-card">
-                        <div class="circular-icon"><i class="fas fa-file-alt"></i></div>
-                        <div class="circular-text">Update<br>Annexure</div>
-                    </a>
+                    <a href="senior citizen.jpg" target="_blank" class="circular-card"><div class="icon-box"><i class="fas fa-id-card"></i></div><div class="card-title">Senior<br>Citizen</div></a>
+                    <a href="swadhin sanchay.jpg" target="_blank" class="circular-card"><div class="icon-box"><i class="fas fa-piggy-bank"></i></div><div class="card-title">Independent<br>Savings</div></a>
+                    <a href="Revised Interest on Credit Card.jpg" target="_blank" class="circular-card"><div class="icon-box"><i class="fas fa-percent"></i></div><div class="card-title">Revised<br>Interest</div></a>
+                    <a href="Annexure-01 (updated).jpg" target="_blank" class="circular-card"><div class="icon-box"><i class="fas fa-file-alt"></i></div><div class="card-title">Update<br>Annexure</div></a>
                 </div>
             </section>
 
             <section class="page" id="page-notice">
                 <h2 class="page-title">Notice</h2>
-                <div class="calculator-container" style="text-align: left;">
-                    <div style="background:#fff3cd; color:#856404; padding:15px; border-radius:10px; border:1px solid #ffeeba;">
-                        <p><strong><i class="fas fa-sync-alt"></i> অ্যাপ আপডেট পেতে:</strong></p>
-                        <ul style="margin-left:20px; margin-top:5px;">
+                <div class="calculator-container">
+                    <div style="background:#fff7ed; color:#9a3412; padding:20px; border-radius:12px; border:1px solid #ffedd5;">
+                        <h4 style="display:flex; align-items:center; gap:8px; margin-bottom:10px;"><i class="fas fa-sync-alt"></i> আপডেট পেতে:</h4>
+                        <ul style="margin-left:25px; line-height:1.6;">
                             <li>অ্যাপ এর ডাটা ক্লিয়ার করুন।</li>
                             <li>আবার অ্যাপটি ওপেন করুন।</li>
                         </ul>
@@ -483,19 +390,21 @@
         </main>
         
         <footer>
-            Created by: Md. Jahidul Islam, PBL, Mirerdanga Branch, Khulna.
+            Built for PBL by Md. Jahidul Islam, Mirerdanga Branch.
         </footer>
     </div>
 
     <div id="amortization-modal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3>Amortization Chart</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <h3 style="margin:0;">Amortization</h3>
                 <span class="close-btn modal-close-btn">&times;</span>
             </div>
-            <div style="max-height: 300px; overflow-y: auto;">
-                <table style="width:100%; border-collapse:collapse; font-size:0.9em;">
-                    <thead style="position:sticky; top:0; background:#f1f1f1;"><tr><th style="padding:8px; text-align:center;">#</th><th style="text-align:right;">Interest</th><th style="text-align:right;">Principal</th><th style="text-align:right;">Balance</th></tr></thead>
+            <div style="max-height: 300px; overflow-y: auto; border:1px solid #eee; border-radius:8px;">
+                <table style="width:100%; border-collapse:collapse; font-size:0.85rem;">
+                    <thead style="position:sticky; top:0; background:#f9fafb; color:#4b5563;">
+                        <tr><th style="padding:10px; text-align:center;">#</th><th style="text-align:right;">Int.</th><th style="text-align:right;">Prin.</th><th style="text-align:right; padding-right:10px;">Bal.</th></tr>
+                    </thead>
                     <tbody id="amortization-table-body"></tbody>
                 </table>
             </div>
@@ -508,7 +417,6 @@
         const contentArea = document.getElementById('content-area');
         const pages = contentArea.querySelectorAll('.page');
         const navLinks = document.querySelectorAll('[data-target]');
-        const mainLogo = document.querySelector('.logo');
         const headerBackBtn = document.getElementById('header-back-btn');
 
         function navigateTo(pageId) {
@@ -517,27 +425,29 @@
             if (targetPage) targetPage.classList.add('active');
             window.scrollTo(0, 0);
 
-            // Handle Back Button Visibility
             if (pageId === 'dashboard' || pageId === 'main-calculator') {
                 headerBackBtn.style.display = 'none';
             } else {
-                headerBackBtn.style.display = 'flex'; // Use flex to center icon
+                headerBackBtn.style.display = 'flex';
             }
 
-            // Viewport & Fullscreen Logic
             const body = document.body;
             if (pageId === 'main-calculator') body.classList.add('calculator-fullscreen');
             else body.classList.remove('calculator-fullscreen');
         }
 
-        navLinks.forEach(link => link.addEventListener('click', (e) => navigateTo(e.currentTarget.getAttribute('data-target'))));
-        mainLogo.addEventListener('click', () => navigateTo('dashboard'));
-        headerBackBtn.addEventListener('click', () => navigateTo('dashboard'));
-
-        // --- 2. LOGIC FOR ALL CALCULATORS (Simplified for Brevity) ---
+        navLinks.forEach(link => link.addEventListener('click', (e) => {
+            const target = e.currentTarget.getAttribute('data-target');
+            if(target) navigateTo(target);
+        }));
         
-        // Helper: Format Money
-        const fmt = (n) => n.toFixed(2);
+        headerBackBtn.addEventListener('click', () => navigateTo('dashboard'));
+        document.querySelector('.fullscreen-home-btn').addEventListener('click', () => navigateTo('dashboard'));
+        document.querySelector('.logo').addEventListener('click', () => navigateTo('dashboard'));
+
+        // --- 2. CALCULATOR LOGIC ---
+        const fmt = (n) => n.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        const getVal = (id) => parseFloat(document.getElementById(id).value) || 0;
 
         // Main Calc
         let currentInput = '0';
@@ -554,78 +464,82 @@
         });
 
         // Age Calc
-        const populate = (id, start, end, months=false) => {
-            const el = document.getElementById(id);
-            const mNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            for(let i=start; months ? i<12 : i<=end; i++) el.add(new Option(months ? mNames[i] : i, i));
-        };
-        const d = new Date();
-        populate('age-current-day',1,31); populate('age-current-month',0,11,true); populate('age-current-year',1900,2050);
-        populate('age-dob-day',1,31); populate('age-dob-month',0,11,true); populate('age-dob-year',1900,2050);
-        document.getElementById('age-current-day').value = d.getDate();
-        document.getElementById('age-current-month').value = d.getMonth();
-        document.getElementById('age-current-year').value = d.getFullYear();
-
+        const pop = (id, s, e, m=false) => { const el = document.getElementById(id); const n=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; for(let i=s; m?i<12:i<=e; i++) el.add(new Option(m?n[i]:i,i)); };
+        const d = new Date(); pop('age-current-day',1,31); pop('age-current-month',0,11,true); pop('age-current-year',1900,2050);
+        pop('age-dob-day',1,31); pop('age-dob-month',0,11,true); pop('age-dob-year',1900,2050);
+        document.getElementById('age-current-day').value = d.getDate(); document.getElementById('age-current-month').value = d.getMonth(); document.getElementById('age-current-year').value = d.getFullYear();
         document.getElementById('age-calculate-btn').addEventListener('click', () => {
-             const getVal = (p) => parseInt(document.getElementById(p).value);
-             const dob = new Date(getVal('age-dob-year'), getVal('age-dob-month'), getVal('age-dob-day'));
-             const curr = new Date(getVal('age-current-year'), getVal('age-current-month'), getVal('age-current-day'));
-             let diff = curr - dob;
-             if(diff < 0) { document.getElementById('age-result').innerHTML = "Invalid Date"; document.getElementById('age-result').style.display='block'; return; }
-             let ageDate = new Date(diff); 
-             document.getElementById('age-result').innerHTML = `Age: <strong>${Math.abs(ageDate.getUTCFullYear() - 1970)}</strong> Years, <strong>${ageDate.getUTCMonth()}</strong> Months, <strong>${ageDate.getUTCDate() - 1}</strong> Days`;
+             const v = (i) => parseInt(document.getElementById(i).value);
+             const diff = new Date(v('age-current-year'),v('age-current-month'),v('age-current-day')) - new Date(v('age-dob-year'),v('age-dob-month'),v('age-dob-day'));
+             if(diff<0) return;
+             const a = new Date(diff); 
+             document.getElementById('age-result').innerHTML = `Age: <strong>${Math.abs(a.getUTCFullYear()-1970)}</strong> Years, <strong>${a.getUTCMonth()}</strong> Months, <strong>${a.getUTCDate()-1}</strong> Days`;
              document.getElementById('age-result').style.display='block';
         });
 
-        // EMI Calc
-        const getNum = (id) => parseFloat(document.getElementById(id).value) || 0;
+        // EMI
         document.getElementById('emi-calculate-btn').addEventListener('click', () => {
-            const P = getNum('emi-principal'), R = getNum('emi-rate')/1200, N = getNum('emi-tenure') * (document.querySelector('input[name="tenure_type"]:checked').value === 'years' ? 12 : 1);
-            if(P<=0 || R<=0 || N<=0) return;
+            const P = getVal('emi-principal'), R = getVal('emi-rate')/1200, N = getVal('emi-tenure') * (document.querySelector('input[name="tenure_type"]:checked').value === 'years' ? 12 : 1);
+            if(P<=0) return;
             const emi = (P * R * Math.pow(1+R,N)) / (Math.pow(1+R,N)-1);
             document.getElementById('emi-result').innerHTML = `EMI: <strong>${fmt(emi)}</strong><br>Total Pay: <strong>${fmt(emi*N)}</strong>`;
             document.getElementById('emi-result').style.display='block';
         });
-        
-        // Modal Logic
         const modal = document.getElementById('amortization-modal');
         document.getElementById('emi-amortization-btn').addEventListener('click', () => { modal.style.display = 'block'; });
         document.querySelector('.modal-close-btn').addEventListener('click', () => { modal.style.display = 'none'; });
         window.onclick = (e) => { if(e.target == modal) modal.style.display = 'none'; };
 
-        // FDR Calc
+        // FDR
         document.getElementById('fdr-calculate-btn').addEventListener('click', () => {
-            const amt = getNum('fdr-amount'), m = parseFloat(document.getElementById('fdr-months').value), tax = getNum('fdr-tax-deduction');
-            const rates = {'1':5, '3':8, '3.10':8, '6':8.25, '12':8.50};
-            const interest = amt * (rates[m]/100) * (m/12);
-            document.getElementById('fdr-result').innerHTML = `Net Interest: <strong>${fmt(interest - (interest*tax/100))}</strong>`;
+            const interest = getVal('fdr-amount') * ({'1':0.05,'3':0.08,'3.10':0.08,'6':0.0825,'12':0.0850}[document.getElementById('fdr-months').value]) * (parseFloat(document.getElementById('fdr-months').value)/12);
+            document.getElementById('fdr-result').innerHTML = `Net Interest: <strong>${fmt(interest * (1 - getVal('fdr-tax-deduction')/100))}</strong>`;
             document.getElementById('fdr-result').style.display='block';
         });
 
-        // DPS Calc
+        // DPS
         document.getElementById('dps-calculate-btn').addEventListener('click', () => {
-            const dep = getNum('dps-monthly-deposit'), y = getNum('dps-tenure');
-            const r = (y<=5 ? 7.25 : 7.50)/1200, n = y*12;
-            const mat = dep * ((Math.pow(1+r,n)-1)/r);
-            document.getElementById('dps-result').innerHTML = `Maturity: <strong>${fmt(mat)}</strong>`;
+            const r = (getVal('dps-tenure')<=5 ? 7.25 : 7.50)/1200, n = getVal('dps-tenure')*12;
+            document.getElementById('dps-result').innerHTML = `Maturity: <strong>${fmt(getVal('dps-monthly-deposit') * ((Math.pow(1+r,n)-1)/r))}</strong>`;
             document.getElementById('dps-result').style.display='block';
         });
 
-        // DBR Calc
+        // DBR
         document.getElementById('dbr-calculate-btn').addEventListener('click', () => {
-            const inc = getNum('dbr-grossIncome'), obligations = getNum('dbr-existingEMI') + getNum('dbr-proposedEMI') + ((getNum('dbr-creditCardLimit') + getNum('dbr-proposed-limit')) * 0.05);
-            document.getElementById('dbr-result').innerHTML = `DBR: <strong>${fmt((obligations/inc)*100)}%</strong>`;
+            const obl = getVal('dbr-existingEMI') + getVal('dbr-proposedEMI') + ((getVal('dbr-creditCardLimit') + getVal('dbr-proposed-limit')) * 0.05);
+            document.getElementById('dbr-result').innerHTML = `DBR: <strong>${fmt((obl/getVal('dbr-grossIncome'))*100)}%</strong>`;
             document.getElementById('dbr-result').style.display='block';
         });
         
-        // ELSL Calc
-        document.getElementById('elsl-calculate-btn').addEventListener('click', () => {
-             const g = getNum('elsl-grossSalary'), th = getNum('elsl-takeHomeSalary'), sp = getNum('elsl-spouseSalary'), factor = getNum('elsl-tenure');
-             const ded = (g+sp)-(th+sp), half = (g+sp)*0.5, max = half-ded;
-             const elig = Math.floor((max/factor)*100)*1000; 
-             document.getElementById('elsl-eligibleLimit').innerText = elig.toLocaleString();
-             document.getElementById('elsl-totalMonthlyInstallment').innerText = fmt((elig/100000)*factor);
-        });
+        // ================================================== //
+        // ============ 8. ELSL CALCULATOR LOGIC ============ //
+        // ================================================== //
+        (() => {
+            document.getElementById('elsl-calculate-btn').addEventListener('click', () => {
+                const gross = parseFloat(document.getElementById('elsl-grossSalary').value) || 0;
+                const takeHome = parseFloat(document.getElementById('elsl-takeHomeSalary').value) || 0;
+                const spouse = parseFloat(document.getElementById('elsl-spouseSalary').value) || 0;
+                const perLac = parseFloat(document.getElementById('elsl-tenure').value);
+                if (gross <= 0) { alert("Valid gross salary required."); return; }
+
+                const totalGross = gross + spouse, totalTakeHome = takeHome + spouse;
+                const deduction = totalGross - totalTakeHome, halfGross = totalGross * 0.5;
+                const maxInstall = halfGross - deduction;
+                if (maxInstall <= 0) { alert("Not eligible based on current deductions."); return; }
+
+                let eligible = Math.min(Math.floor((maxInstall / perLac * 100000) / 1000) * 1000, 1000000);
+                const monthlyInstall = (eligible / 100000) * perLac;
+                
+                const format = (num) => '৳' + num.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('elsl-presentDeduction').textContent = format(deduction);
+                document.getElementById('elsl-halfGross').textContent = format(halfGross);
+                document.getElementById('elsl-maxInstallment').textContent = format(maxInstall > 0 ? maxInstall : 0);
+                document.getElementById('elsl-perLacInstallment').textContent = format(perLac);
+                document.getElementById('elsl-eligibleLimit').textContent = format(eligible > 0 ? eligible : 0);
+                document.getElementById('elsl-totalMonthlyInstallment').textContent = format(monthlyInstall > 0 ? monthlyInstall : 0);
+            });
+        })();
+
     });
     </script>
 </body>
